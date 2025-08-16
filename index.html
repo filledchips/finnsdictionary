@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Finn's English Dictionary</title>
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to bottom, #005f99, #b2ebf2);
+      height: 100vh;
+      overflow-x: hidden;
+      overflow-y: auto;
+      position: relative;
+    }
+
+    h1 {
+      margin: 2rem 0 1rem;
+      text-align: center;
+      color: #e0f7fa;
+      text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4);
+      font-size: 2.5rem;
+      z-index: 2;
+      position: relative;
+    }
+
+    .search-container {
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-bottom: 2rem;
+      z-index: 2;
+      position: relative;
+    }
+
+    input[type="text"], button {
+      padding: 0.7rem;
+      font-size: 1rem;
+      border-radius: 5px;
+      border: none;
+      outline: none;
+    }
+
+    input[type="text"] {
+      width: 250px;
+    }
+
+    button {
+      background-color: #006994;
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #004e75;
+    }
+
+    #result {
+      display: none;
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(12px);
+      border-radius: 15px;
+      padding: 2rem;
+      margin: 0 auto 3rem auto;
+      width: 90%;
+      max-width: 600px;
+      color: white;
+      z-index: 2;
+      position: relative;
+    }
+
+    .word {
+      font-size: 2rem;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .phonetic {
+      font-style: italic;
+      margin-top: 0.3rem;
+    }
+
+    .partOfSpeech {
+      margin-top: 1rem;
+      font-weight: bold;
+      color: #b2ebf2;
+    }
+
+    .definition {
+      margin-top: 0.5rem;
+      padding-left: 1rem;
+      line-height: 1.5;
+    }
+
+    .error {
+      color: #ffcccb;
+      margin-top: 1rem;
+      text-align: center;
+    }
+
+    .speak-button {
+      background-color: #00acc1;
+      border: none;
+      border-radius: 5px;
+      padding: 0.3rem 0.7rem;
+      color: white;
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    .speak-button:hover {
+      background-color: #008ba3;
+    }
+
+    .bubble-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .bubble {
+      position: absolute;
+      bottom: -50px;
+      background-color: rgba(255, 255, 255, 0.2);
+      border-radius: 50%;
+      animation: rise 15s linear infinite;
+    }
+
+    @keyframes rise {
+      0% {
+        transform: translateY(0) scale(1);
+        opacity: 0.7;
+      }
+      100% {
+        transform: translateY(-1200px) scale(0.5);
+        opacity: 0;
+      }
+    }
+
+    /* Tenor GIF style */
+    .tenor-gif-embed {
+      margin-top: 2rem;
+      text-align: center;
+      z-index: 2;
+      position: relative;
+    }
+
+    /* Small credits text */
+    .credits-text {
+      text-align: center;
+      font-size: 0.9rem;
+      color: #e0f7fa;
+      margin-top: 0.3rem;
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+      z-index: 2;
+      position: relative;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Bubbles Background -->
+  <div class="bubble-container" id="bubbles"></div>
+
+  <!-- Main Content -->
+  <h1>Finn's English Dictionary</h1>
+
+  <div class="search-container">
+    <input type="text" id="wordInput" placeholder="Enter a word..." autocomplete="off" />
+    <button onclick="searchWord()">Search</button>
+  </div>
+
+  <div id="result"></div>
+
+  <!-- Tenor GIF Embed -->
+  <div class="tenor-gif-embed" data-postid="14556160526932274392" data-share-method="host" data-aspect-ratio="0.562249" data-width="100%">
+    <a href="https://tenor.com/view/finn-dandys-world-dandysworld-finndandysworld-finn-dw-gif-14556160526932274392">Finn Dandys World GIF</a> 
+    from <a href="https://tenor.com/search/finn-gifs">Finn GIFs</a>
+  </div>
+  <p class="credits-text">type WYTT for credits</p>
+  <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
+
+  <script>
+    const resultDiv = document.getElementById("result");
+    const inputField = document.getElementById("wordInput");
+
+    const customDefinitions = {
+      "gte": {
+        partOfSpeech: "verb",
+        definition: "Go to elevator. A quick directive used when heading toward the main elevator area in Dandy's World."
+      },
+      "eae": {
+        partOfSpeech: "noun/verb",
+        definition: "Everyone at elevator. A call to regroup all players at the elevator in Dandy’s World."
+      },
+      "pop": {
+        partOfSpeech: "verb",
+        definition: "To activate or repair a machine in Dandy’s World. Often done under pressure or while being chased."
+      },
+      "glis": {
+        partOfSpeech: "noun",
+        definition: "Short for glisten or twisted glisten. A variant enemy with unpredictable behavior and high damage output."
+      },
+      "babysit": {
+        partOfSpeech: "verb",
+        definition: "To stay near glisten to keep him passive. Common strategy to prevent him from becoming hostile."
+      },
+      "dandy run": {
+        partOfSpeech: "noun",
+        definition: "A type of challenge run where players avoid buying from Dandy’s in-game shop entirely."
+      },
+      "atg": {
+        partOfSpeech: "adverb",
+        definition: "All twisteds gathered. Used to describe the situation when all 'twisted' enemies are grouped together."
+      },
+      "dis": {
+        partOfSpeech: "verb",
+        definition: "To keep the twisteds focused on you to keep other players safe by distracting the enemies."
+      },
+      "distract": {
+        partOfSpeech: "verb",
+        definition: "To keep the twisteds focused on you to keep other players safe by distracting the enemies."
+      },
+      "distractor": {
+        partOfSpeech: "noun/verb",
+        definition: "The person purposefully keeping twisteds chasing them to keep others safe."
+      },
+      "extract": {
+        partOfSpeech: "verb",
+        definition: "To do machines. The action of working on in-game machines, progressing objectives."
+      },
+      "extractor": {
+        partOfSpeech: "noun",
+        definition: "The person or group of people doing machines. Responsible for advancing machine-related tasks."
+      },
+      "prime": {
+        partOfSpeech: "verb",
+        definition: "To save a machine for later by not doing it or partially finishing it, usually the machine closest to the elevator so you can call everyone to go there and finish it, conserving stamina and time."
+      },
+      "last": {
+        partOfSpeech: "noun",
+        definition: "The last machine until all are completed. The final objective to finish the current round or challenge."
+      },
+      "machine": {
+        partOfSpeech: "noun",
+        definition: "Generator in Dandy's World. The primary in-game objective that players must repair or activate."
+      },
+      "coin purse": {
+        partOfSpeech: "noun",
+        definition: "A trinket in Dandy's World which grants 30 tapes at the start of every run when equipped."
+      },
+      "research map": {
+        partOfSpeech: "noun",
+        definition: "A trinket in Dandy's World that highlights all Research Capsules every 10 seconds."
+      },
+      "wrench": {
+        partOfSpeech: "noun",
+        definition: "A trinket in Dandy's World that instantly adds a large amount of completion to the first Machine you extract from on any Floor. Has a limit of 1 activation per Floor."
+      },
+      "dandys world": {
+        partOfSpeech: "proper noun / noun",
+        definition: "A Roblox game developed by Blushcrunch Studio, and Qwel. A popular game."
+      },
+      "dw": {
+        partOfSpeech: "abbreviation",
+        definition: "Abbreviation for Dandy's World, the Roblox game developed by Blushcrunch Studio and Qwel."
+      },
+      "trinket": {
+        partOfSpeech: "noun",
+        definition: "An item in Dandy's World which you can get from obtaining 100% research of its selected twisted, or bought from Dandy's Shop 'Trinkets' tab."
+      },
+      "research": {
+        partOfSpeech: "noun",
+        definition: "A value in Dandy's World indicating how much research capsules or 'getting seen' of that twisted. Usually for Trinkets or Mains."
+      },
+      "twisted": {
+        partOfSpeech: "noun",
+        definition: "Monster in Dandy's World."
+      },
+      "main": {
+        partOfSpeech: "noun",
+        definition: "A main character in Dandy's World, like Shelly, Pebble, Astro, Bobette, etc."
+      },
+      "band": {
+        partOfSpeech: "noun",
+        definition: "Bandage. Used for healing or protection in gameplay."
+      },
+      "med": {
+        partOfSpeech: "noun",
+        definition: "Medkit or healthkit. Item used to restore health."
+      },
+      "blushcrunch": {
+        partOfSpeech: "proper noun",
+        definition: "A game studio which developed Flavor Frenzy and Dandy's World, along with Qwel as the developer."
+      },
+      "blushcrunch studio": {
+        partOfSpeech: "proper noun",
+        definition: "A game studio which developed Flavor Frenzy and Dandy's World, along with Qwel as the developer."
+      },
+      "rox": {
+        partOfSpeech: "proper noun",
+        definition: "A pedophile."
+      },
+      "ichor": {
+        partOfSpeech: "noun",
+        definition: "A currency used to get skins, stickers, toons, and trinkets etc. in Dandy's World but also is what turned twisteds into twisteds and makes up the black liquid in Machines. Original purpose was to turn the toons alive."
+      },
+      "qwel": {
+        partOfSpeech: "proper noun",
+        definition: "A Puerto Rican girl who is a developer and admin of Blushcrunch Studio and its games."
+      },
+      "qwelver": {
+        partOfSpeech: "proper noun",
+        definition: "Has the same meaning as Qwel."
+      },
+      "tne": {
+        partOfSpeech: "abbreviation",
+        definition: "Twisteds near elevator, a callout used for people going to the elevator in panic mode, used to warn people who don't want to get hit."
+      },
+      "panic mode": {
+        partOfSpeech: "noun",
+        definition: "The mode that gives approximately 25 seconds to go to the elevator once it opened as all the machines are completed, so that you can move on to the next floor."
+      },
+      "wytt": {
+        partOfSpeech: "abbreviation",
+        definition: `My TikTok is <a href="https://tiktok.com/@toodlesxrodgercan0n?_t=ZS-8yutKSTiiaw&_r=1" target="_blank" rel="noopener noreferrer">tiktok.com/@toodlesxrodgercan0n</a>`
+      }
+    };
+
+    async function searchWord() {
+      const rawWord = inputField.value.trim();
+      if (!rawWord) {
+        resultDiv.style.display = "none";
+        return;
+      }
+      const word = rawWord.toLowerCase();
+      let html = "";
+
+      if (customDefinitions[word]) {
+        const def = customDefinitions[word];
+        html += `<div class="word">${rawWord} <button class="speak-button" onclick="speak('${rawWord}')" title="Hear word">&#128266;</button></div>`;
+        html += `<div class="partOfSpeech">${def.partOfSpeech}</div>`;
+        html += `<div class="definition">${def.definition}</div>`;
+      } else {
+        try {
+          const response = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`);
+          if (!response.ok) throw new Error("API error");
+          const data = await response.json();
+          if (Array.isArray(data) && data.length > 0) {
+            const entry = data[0];
+            html += `<div class="word">${entry.word} <button class="speak-button" onclick="speak('${entry.word}')" title="Hear word">&#128266;</button></div>`;
+            if (entry.phonetics && entry.phonetics.length > 0) {
+              const phoneticText = entry.phonetics.find(p => p.text)?.text || "";
+              if (phoneticText) {
+                html += `<div class="phonetic">${phoneticText}</div>`;
+              }
+            }
+
+            entry.meanings.forEach(meaning => {
+              html += `<div class="partOfSpeech">${meaning.partOfSpeech}</div>`;
+              meaning.definitions.forEach((def, idx) => {
+                html += `<div class="definition">${idx + 1}. ${def.definition}</div>`;
+              });
+            });
+          } else {
+            html = `<div class="error">No definition found for "${rawWord}".</div>`;
+          }
+        } catch {
+          html = `<div class="error">Error fetching definition.</div>`;
+        }
+      }
+
+      resultDiv.innerHTML = html;
+      resultDiv.style.display = "block";
+    }
+
+    function speak(word) {
+      if (!window.speechSynthesis) return alert("Speech synthesis not supported in this browser.");
+      const utterance = new SpeechSynthesisUtterance(word);
+      window.speechSynthesis.speak(utterance);
+    }
+
+    // Bubble animation on Enter key press
+    function createBubble() {
+      const bubble = document.createElement("div");
+      bubble.classList.add("bubble");
+
+      const size = Math.random() * 20 + 15;
+      bubble.style.width = `${size}px`;
+      bubble.style.height = `${size}px`;
+      bubble.style.left = `${Math.random() * 100}%`;
+      bubble.style.animationDuration = `${Math.random() * 10 + 10}s`;
+      bubble.style.opacity = Math.random() * 0.4 + 0.3;
+
+      document.getElementById("bubbles").appendChild(bubble);
+
+      setTimeout(() => {
+        bubble.remove();
+      }, 15000);
+    }
+
+    inputField.addEventListener("keydown", function (e) {
+      if (e.key === "Enter") {
+        createBubble();
+        searchWord();
+      }
+    });
+  </script>
+
+</body>
+</html>
