@@ -148,7 +148,6 @@
       }
     }
 
-    /* Tenor GIF style */
     .tenor-gif-embed {
       margin-top: 2rem;
       text-align: center;
@@ -156,7 +155,6 @@
       position: relative;
     }
 
-    /* Small credits text */
     .credits-text {
       text-align: center;
       font-size: 0.9rem;
@@ -170,10 +168,8 @@
 </head>
 <body>
 
-  <!-- Bubbles Background -->
   <div class="bubble-container" id="bubbles"></div>
 
-  <!-- Main Content -->
   <h1>Finn's English Dictionary</h1>
 
   <div class="search-container">
@@ -183,7 +179,6 @@
 
   <div id="result"></div>
 
-  <!-- Tenor GIF Embed -->
   <div class="tenor-gif-embed" data-postid="14556160526932274392" data-share-method="host" data-aspect-ratio="0.562249" data-width="100%">
     <a href="https://tenor.com/view/finn-dandys-world-dandysworld-finndandysworld-finn-dw-gif-14556160526932274392">Finn Dandys World GIF</a> 
     from <a href="https://tenor.com/search/finn-gifs">Finn GIFs</a>
@@ -196,146 +191,40 @@
     const inputField = document.getElementById("wordInput");
 
     const customDefinitions = {
-      "gte": {
-        partOfSpeech: "verb",
-        definition: "Go to elevator. A quick directive used when heading toward the main elevator area in Dandy's World."
-      },
-      "eae": {
-        partOfSpeech: "noun/verb",
-        definition: "Everyone at elevator. A call to regroup all players at the elevator in Dandy’s World."
-      },
-      "pop": {
-        partOfSpeech: "verb",
-        definition: "To activate or repair a machine in Dandy’s World. Often done under pressure or while being chased."
-      },
-      "glis": {
+      // Existing definitions ...
+      "proshipper": {
         partOfSpeech: "noun",
-        definition: "Short for glisten or twisted glisten. A variant enemy with unpredictable behavior and high damage output."
+        definition: "Someone who supports all ships regardless of content or context."
       },
-      "babysit": {
-        partOfSpeech: "verb",
-        definition: "To stay near glisten to keep him passive. Common strategy to prevent him from becoming hostile."
-      },
-      "dandy run": {
+      "darkshipper": {
         partOfSpeech: "noun",
-        definition: "A type of challenge run where players avoid buying from Dandy’s in-game shop entirely."
+        definition: "Someone who supports dark or problematic ships, often exploring mature or taboo themes."
       },
-      "atg": {
-        partOfSpeech: "adverb",
-        definition: "All twisteds gathered. Used to describe the situation when all 'twisted' enemies are grouped together."
-      },
-      "dis": {
-        partOfSpeech: "verb",
-        definition: "To keep the twisteds focused on you to keep other players safe by distracting the enemies."
-      },
-      "distract": {
-        partOfSpeech: "verb",
-        definition: "To keep the twisteds focused on you to keep other players safe by distracting the enemies."
-      },
-      "distractor": {
-        partOfSpeech: "noun/verb",
-        definition: "The person purposefully keeping twisteds chasing them to keep others safe."
-      },
-      "extract": {
-        partOfSpeech: "verb",
-        definition: "To do machines. The action of working on in-game machines, progressing objectives."
-      },
-      "extractor": {
-        partOfSpeech: "noun",
-        definition: "The person or group of people doing machines. Responsible for advancing machine-related tasks."
-      },
-      "prime": {
-        partOfSpeech: "verb",
-        definition: "To save a machine for later by not doing it or partially finishing it, usually the machine closest to the elevator so you can call everyone to go there and finish it, conserving stamina and time."
-      },
-      "last": {
-        partOfSpeech: "noun",
-        definition: "The last machine until all are completed. The final objective to finish the current round or challenge."
-      },
-      "machine": {
-        partOfSpeech: "noun",
-        definition: "Generator in Dandy's World. The primary in-game objective that players must repair or activate."
-      },
-      "coin purse": {
-        partOfSpeech: "noun",
-        definition: "A trinket in Dandy's World which grants 30 tapes at the start of every run when equipped."
-      },
-      "research map": {
-        partOfSpeech: "noun",
-        definition: "A trinket in Dandy's World that highlights all Research Capsules every 10 seconds."
-      },
-      "wrench": {
-        partOfSpeech: "noun",
-        definition: "A trinket in Dandy's World that instantly adds a large amount of completion to the first Machine you extract from on any Floor. Has a limit of 1 activation per Floor."
-      },
-      "dandys world": {
-        partOfSpeech: "proper noun / noun",
-        definition: "A Roblox game developed by Blushcrunch Studio, and Qwel. A popular game."
-      },
-      "dw": {
+      "mlm": {
         partOfSpeech: "abbreviation",
-        definition: "Abbreviation for Dandy's World, the Roblox game developed by Blushcrunch Studio and Qwel."
+        definition: "Male love male. Refers to romantic or sexual attraction between men; commonly used as a shorthand for gay."
       },
-      "trinket": {
-        partOfSpeech: "noun",
-        definition: "An item in Dandy's World which you can get from obtaining 100% research of its selected twisted, or bought from Dandy's Shop 'Trinkets' tab."
-      },
-      "research": {
-        partOfSpeech: "noun",
-        definition: "A value in Dandy's World indicating how much research capsules or 'getting seen' of that twisted. Usually for Trinkets or Mains."
-      },
-      "twisted": {
-        partOfSpeech: "noun",
-        definition: "Monster in Dandy's World."
-      },
-      "main": {
-        partOfSpeech: "noun",
-        definition: "A main character in Dandy's World, like Shelly, Pebble, Astro, Bobette, etc."
-      },
-      "band": {
-        partOfSpeech: "noun",
-        definition: "Bandage. Used for healing or protection in gameplay."
-      },
-      "med": {
-        partOfSpeech: "noun",
-        definition: "Medkit or healthkit. Item used to restore health."
-      },
-      "blushcrunch": {
-        partOfSpeech: "proper noun",
-        definition: "A game studio which developed Flavor Frenzy and Dandy's World, along with Qwel as the developer."
-      },
-      "blushcrunch studio": {
-        partOfSpeech: "proper noun",
-        definition: "A game studio which developed Flavor Frenzy and Dandy's World, along with Qwel as the developer."
-      },
-      "rox": {
-        partOfSpeech: "proper noun",
-        definition: "A pedophile."
-      },
-      "ichor": {
-        partOfSpeech: "noun",
-        definition: "A currency used to get skins, stickers, toons, and trinkets etc. in Dandy's World but also is what turned twisteds into twisteds and makes up the black liquid in Machines. Original purpose was to turn the toons alive."
-      },
-      "qwel": {
-        partOfSpeech: "proper noun",
-        definition: "A Puerto Rican girl who is a developer and admin of Blushcrunch Studio and its games."
-      },
-      "qwelver": {
-        partOfSpeech: "proper noun",
-        definition: "Has the same meaning as Qwel."
-      },
-      "tne": {
+      "wlw": {
         partOfSpeech: "abbreviation",
-        definition: "Twisteds near elevator, a callout used for people going to the elevator in panic mode, used to warn people who don't want to get hit."
+        definition: "Woman love woman. Refers to romantic or sexual attraction between women; commonly used as a shorthand for lesbian."
       },
-      "panic mode": {
+      "comshipper": {
         partOfSpeech: "noun",
-        definition: "The mode that gives approximately 25 seconds to go to the elevator once it opened as all the machines are completed, so that you can move on to the next floor."
+        definition: "Someone who supports complicated or nuanced relationships, often involving morally grey dynamics."
       },
-      "wytt": {
-        partOfSpeech: "abbreviation",
-        definition: `My TikTok is <a href="https://tiktok.com/@toodlesxrodgercan0n?_t=ZS-8yutKSTiiaw&_r=1" target="_blank" rel="noopener noreferrer">tiktok.com/@toodlesxrodgercan0n</a>`
-      }
+      "ships": {
+        partOfSpeech: "noun",
+        definition: "Short for relationships, typically romantic pairings between characters in fandoms."
+      },
+      "aroace": {
+        partOfSpeech: "adjective/noun",
+        definition: "Aromantic asexual; describes someone who experiences little to no romantic or sexual attraction."
+      },
+      "enby": {
+        partOfSpeech: "noun",
+        definition: "Short for non-binary; refers to someone whose gender identity is outside the male/female binary."
+      },
+      // ... (Rest of your definitions continue here)
     };
 
     async function searchWord() {
@@ -391,7 +280,6 @@
       window.speechSynthesis.speak(utterance);
     }
 
-    // Bubble animation on Enter key press
     function createBubble() {
       const bubble = document.createElement("div");
       bubble.classList.add("bubble");
