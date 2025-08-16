@@ -138,14 +138,8 @@
     }
 
     @keyframes rise {
-      0% {
-        transform: translateY(0) scale(1);
-        opacity: 0.7;
-      }
-      100% {
-        transform: translateY(-1200px) scale(0.5);
-        opacity: 0;
-      }
+      0% { transform: translateY(0) scale(1); opacity: 0.7; }
+      100% { transform: translateY(-1200px) scale(0.5); opacity: 0; }
     }
   </style>
 </head>
@@ -166,44 +160,65 @@ const resultDiv = document.getElementById("result");
 const inputField = document.getElementById("wordInput");
 
 const customDefinitions = {
-  "proshipper": { partOfSpeech: "noun", definition: "A proshipper is someone who believes that any fictional ship is valid, even if the content is controversial or uncomfortable. They usually separate fiction from reality and enjoy exploring darker pairings without seeing it as real-life support." },
-  "darkshipper": { partOfSpeech: "noun", definition: "A darkshipper is someone who likes or supports fictional relationships that revolve around dark or disturbing themes, such as obsession, horror or violence. They’re in it for the story and realism, not because they think it’s okay in real life." },
-  "mlm": { partOfSpeech: "abbreviation", definition: "Stands for ‘male love male.’ It’s a casual way of referring to men (including trans men) being attracted to other men, or media/content focusing on that." },
-  "wlw": { partOfSpeech: "abbreviation", definition: "Short for ‘woman love woman.’ Used to describe women who are attracted to women, or a relationship in media centered around sapphic/lesbian dynamics." },
-  "comshipper": { partOfSpeech: "noun", definition: "Someone who enjoys complex and morally questionable fictional relationships. They usually appreciate intense narratives and don’t shy away from uncomfortable dynamics if it makes the story compelling." },
-  "ships": { partOfSpeech: "noun", definition: "Short way of saying “relationships.” In fandoms, it refers to pairing two characters together (romantically or platonically) and supporting that idea or dynamic." },
-  "aroace": { partOfSpeech: "adjective/noun", definition: "Short for aromantic and asexual. Describes a person who rarely or never experiences romantic and sexual attraction. Aroace people still play games, enjoy stories, and participate in fandoms, they just experience attraction differently." },
-  "enby": { partOfSpeech: "noun", definition: "A casual or shortened way to say “non-binary.” It refers to someone whose gender doesn’t sit exclusively in the male or female categories." },
-  "pop": { partOfSpeech: "verb", definition: "In Dandy’s World, to “pop” a machine just means to work on or complete it. It’s basically the same thing as ‘fixing’ a generator so the team can progress." },
-  "med": { partOfSpeech: "noun", definition: "Short for medkit/healthkit. It’s the healing item players use to restore health to themselves or others." },
-  "band": { partOfSpeech: "noun", definition: "Band is short for bandage. A smaller or quicker healing item that doesn’t fully heal but helps in emergencies." },
-  "rox": { partOfSpeech: "noun", definition: "A negative slang word used in some communities to call someone a pedophile. It’s considered an insult and serious accusation." },
-  "glis": { partOfSpeech: "verb", definition: "To glis basically means the monster is glistening and calm. Players use it when a twisted is just idling/passive and hasn’t gone aggressive yet." },
-  "babysit": { partOfSpeech: "verb", definition: "To stay near a glistening twisted so it stays in a passive state. You essentially babysit it so other teammates can work on machines safely." },
-  "distract": { partOfSpeech: "verb", definition: "To intentionally get the attention of twisteds and keep them chasing you, so your teammates can do objectives (like extracting machines) safely." },
-  "distractor": { partOfSpeech: "noun", definition: "A person who distracts the twisted. Their role is to keep the monster busy so the others aren’t interrupted." },
-  "extract": { partOfSpeech: "verb", definition: "Another word for popping a machine. Players sometimes say ‘extract’ instead of ‘pop’ while repairing a generator." },
-  "extractor": { partOfSpeech: "noun", definition: "Someone (or a group of players) who focuses entirely on extracting/popping machines during a match." },
-  "backup": { partOfSpeech: "noun", definition: "An extra support player like a healer or distractor who fills in when someone else dies or can’t do their job." },
-  "gte": { partOfSpeech: "callout", definition: "Stands for ‘go to elevator.’ A quick callout telling the team that it’s time to head to the elevator." },
-  "eae": { partOfSpeech: "callout", definition: "Means ‘everyone at elevator.’ A fast way to ask or tell the whole team to gather at the elevator." },
-  "tne": { partOfSpeech: "callout", definition: "Stands for ‘twisteds near elevator.’ Used to warn teammates that monsters are in the area around the elevator." },
-  "ele": { partOfSpeech: "abbreviation", definition: "Short for elevator. Players use it as a quick shorthand in callouts." },
-  "panic mode": { partOfSpeech: "noun", definition: "A phase that starts right after all machines are finished. Players get ~25 seconds to reach the elevator or they instantly die. Everything gets intense and chaotic during panic mode." },
-  "twisteds": { partOfSpeech: "noun", definition: "The general name for the group of monsters in Dandy’s World. There are different individual twisted types, but they’re all referred to collectively as twisteds." },
-  "twisted": { partOfSpeech: "noun", definition: "One individual monster in Dandy’s World. You’ll hear people say ‘the twisted’ when referring to whichever specific monster is in a match." },
-  "machines": { partOfSpeech: "noun", definition: "Generators that players need to work on. While extracting them, there’s a chance a skillcheck pops up." },
-  "skillcheck": { partOfSpeech: "noun", definition: "A timed mini game that appears during machine extraction. You have to hit the right part of the circle to succeed — failing it usually alerts the twisted." },
-  "qwel": { partOfSpeech: "noun", definition: "Nickname of a Puerto Rican woman who works as an admin/developer for Blushcrunch Studio. Players mention her when talking about updates or issues in the game." },
-  "qwelver": { partOfSpeech: "noun", definition: "A slightly more playful version of the name Qwel — basically another way people refer to the same developer in a more casual tone." }
+  "proshipper": {
+    partOfSpeech: "noun",
+    definition: "A proshipper is someone who believes that any fictional ship is valid, even if the content is controversial or uncomfortable. They usually separate fiction from reality and enjoy exploring darker pairings without seeing it as real-life support."
+  },
+  "darkshipper": {
+    partOfSpeech: "noun",
+    definition: "A darkshipper is someone who likes or supports fictional relationships that revolve around dark or disturbing themes, such as obsession, horror or violence. They’re in it for the story and realism, not because they think it’s okay in real life."
+  },
+  "mlm": {
+    partOfSpeech: "abbreviation",
+    definition: "Stands for ‘male love male.’ It’s a casual way of referring to men (including trans men) being attracted to other men, or media/content focusing on that."
+  },
+  "wlw": {
+    partOfSpeech: "abbreviation",
+    definition: "Short for ‘woman love woman.’ Used to describe women who are attracted to women, or a relationship in media centered around sapphic/lesbian dynamics."
+  },
+  "comshipper": {
+    partOfSpeech: "noun",
+    definition: "Someone who enjoys complex and morally questionable fictional relationships. They usually appreciate intense narratives and don’t shy away from uncomfortable dynamics if it makes the story compelling."
+  },
+  "ships": {
+    partOfSpeech: "noun",
+    definition: "Short way of saying ‘relationships.’ In fandoms, it refers to pairing two characters together (romantically or platonically) and supporting that idea or dynamic."
+  },
+  "aroace": {
+    partOfSpeech: "adjective/noun",
+    definition: "Short for aromantic and asexual. Describes a person who rarely or never experiences romantic and sexual attraction."
+  },
+  "enby": {
+    partOfSpeech: "noun",
+    definition: "A casual or shortened way to say ‘non-binary.’ It refers to someone whose gender doesn’t sit exclusively in the male or female categories."
+  },
+  "pop": { partOfSpeech: "verb", definition: "In Dandy’s World, to ‘pop’ a machine just means to work on or complete it." },
+  "med": { partOfSpeech: "noun", definition: "Short for medkit or healthkit — the healing item used to restore health." },
+  "band": { partOfSpeech: "noun", definition: "Band is short for bandage. A small healing item used for quick patch-ups." },
+  "rox": { partOfSpeech: "noun", definition: "A negative slang word used in some communities to call someone a pedophile." },
+  "glis": { partOfSpeech: "verb", definition: "To glis means the twisted is in a passive ‘glistening’ state and not aggressive yet." },
+  "babysit": { partOfSpeech: "verb", definition: "To stay near a glistening twisted to keep it passive so teammates can work on objectives." },
+  "distract": { partOfSpeech: "verb", definition: "To intentionally get the twisted’s attention and keep it busy so others can stay safe." },
+  "distractor": { partOfSpeech: "noun", definition: "The person doing the distracting — basically baiting the twisted." },
+  "extract": { partOfSpeech: "verb", definition: "Another word for fixing a machine or generator in Dandy’s World." },
+  "extractor": { partOfSpeech: "noun", definition: "Someone (or a group) actively repairing the machines." },
+  "backup": { partOfSpeech: "noun", definition: "An extra support player that steps in if someone else can’t distract or heal." },
+  "gte": { partOfSpeech: "callout", definition: "‘Go to elevator’ — a quick callout used when it’s time to head out." },
+  "eae": { partOfSpeech: "callout", definition: "‘Everyone at elevator’ — used to check if the whole team has arrived." },
+  "tne": { partOfSpeech: "callout", definition: "‘Twisteds near elevator’ — a warning that monsters are nearby." },
+  "ele": { partOfSpeech: "abbreviation", definition: "Short for elevator — commonly used in quick callouts." },
+  "panic mode": { partOfSpeech: "noun", definition: "A phase after all machines are completed where players have about 25 seconds to run to the elevator or die." },
+  "twisteds": { partOfSpeech: "noun", definition: "The general name for the group of monsters in Dandy’s World." },
+  "twisted": { partOfSpeech: "noun", definition: "One individual monster from the Dandy’s World roster." },
+  "machines": { partOfSpeech: "noun", definition: "Generators that must be repaired. They sometimes trigger a skillcheck mini-game." },
+  "skillcheck": { partOfSpeech: "noun", definition: "A timed mini-game that appears during extraction where you need to hit a button at the correct moment." },
+  "qwel": { partOfSpeech: "noun", definition: "Nickname of a Puerto Rican woman who works as an admin/developer for Blushcrunch Studio." },
+  "qwelver": { partOfSpeech: "noun", definition: "A more playful/friendly variation of ‘Qwel’ used by the community." }
 };
 
 async function searchWord() {
   const rawWord = inputField.value.trim();
-  if (!rawWord) {
-    resultDiv.style.display = "none";
-    return;
-  }
+  if (!rawWord) { resultDiv.style.display = "none"; return; }
   const word = rawWord.toLowerCase();
   let html = "";
 
@@ -246,7 +261,29 @@ function speak(word) {
   window.speechSynthesis.speak(utterance);
 }
 
-// bubbles / animation code untouched...
+function createBubble() {
+  const bubble = document.createElement("div");
+  bubble.classList.add("bubble");
+
+  const size = Math.random() * 20 + 15;
+  bubble.style.width = `${size}px`;
+  bubble.style.height = `${size}px`;
+  bubble.style.left = `${Math.random() * 100}%`;
+  bubble.style.animationDuration = `${Math.random() * 10 + 10}s`;
+  bubble.style.opacity = Math.random() * 0.4 + 0.3;
+
+  document.getElementById("bubbles").appendChild(bubble);
+
+  setTimeout(() => { bubble.remove(); }, 15000);
+}
+
+inputField.addEventListener("keydown", function (e) {
+  if (e.key === "Enter") {
+    createBubble();
+    searchWord();
+  }
+});
 </script>
+
 </body>
 </html>
